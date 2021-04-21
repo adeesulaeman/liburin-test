@@ -1,0 +1,59 @@
+version: '3.6'
+
+services:
+
+  cms-gateway:
+    image: rivnd/vip-cms-gateway:dev       
+    build:
+      context: ./Gateway.CMS
+      dockerfile: ./Gateway.CMS/Dockerfile
+    ports: 
+    - "4001:4001"
+    volumes: 
+      - .:/usr/src/app/cms-gateway
+    container_name: cms-gateway
+    restart:
+      on-failure
+    networks: 
+      - backend
+
+  identity-service:
+    image: rivnd/vip-identity-service:dev
+    build:
+      context: ./Service.Identity
+      dockerfile: ./Service.Identity/Dockerfile
+    ports: 
+    - "5001:5001"
+    volumes: 
+      - .:/usr/src/app/identity-service
+    container_name: identity-service  
+    restart:
+      on-failure
+    networks: 
+      - backend
+      
+  data-service:
+    image: rivnd/vip-data-service:dev
+    build:
+      context: ./Service.Data
+      dockerfile: ./Service.Data/Dockerfile
+    ports: 
+    - "5000:5000"
+    volumes: 
+      - .:/usr/src/app/data-service
+    container_name: data-service
+    restart:
+      on-failure
+    networks: 
+      - backend
+
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks: 
+      - backend
+
+networks:
+  backend: {}

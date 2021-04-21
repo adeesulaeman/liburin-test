@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Service.Protofile.Common";
+
+package paging;
+
+message PageQueryVM{
+	int32 page = 1;
+	int32 itemsPerPage = 2;
+	string search = 3;
+}
+
+message PageResultVM{
+	int32 currentPage = 1;
+	int32 totalRecords = 2;
+	int32 resultPerPage = 3;
+}
+
+message SortableVM{
+	string field = 1;
+	int32 order = 2;
+}
